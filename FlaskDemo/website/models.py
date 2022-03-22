@@ -21,6 +21,7 @@ class Material(db.Model):
     availability = db.Column(db.String(10))
     replacementCost = db.Column(db.Integer)
     checkedOut = db.relationship('CheckedOut')
+    waitingList = db.relationship('WaitingList')
 
 class User(db.Model, UserMixin):
     __tablename__ = 'Users'
@@ -34,12 +35,19 @@ class User(db.Model, UserMixin):
     numVHS = db.Column(db.Integer)
     numDVD = db.Column(db.Integer)
     checkedOut = db.relationship('CheckedOut')
+    waitingList = db.relationship('WaitingList')
 
 class CheckedOut(db.Model, UserMixin):
     __tablename__ = 'CheckedOut'
     materialId = db.Column(db.Integer, db.ForeignKey('Materials.id'), primary_key=True)
     userId = db.Column(db.Integer, db.ForeignKey('Users.id'))
     checkOutDate = db.Column(db.DateTime(timezone=True))
+
+class WaitingList(db.Model, UserMixin):
+    __table__name = 'WaitingList'
+    materialId = db.Column(db.Integer, db.ForeignKey('Materials.id'), primary_key=True)
+    userId = db.Column(db.Integer, db.ForeignKey('Users.id'))
+    joinDate = db.Column(db.DateTime(timezone=True)) 
 
 
     

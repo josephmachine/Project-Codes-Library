@@ -6,7 +6,7 @@ from .import db
 from flask import current_app as app
 import pandas as pd
 # import sqlite3 as sql
-from .models import CheckedOut, Material
+from .models import CheckedOut, Material, WaitingList
 from sqlalchemy.sql import func
 from sqlalchemy import select, desc
 
@@ -82,16 +82,32 @@ def vhsCatalog():
 @views.route('/<type>/<id>')
 def display(type, id):
     material = Material.query.filter_by(id=id).first()
-    return render_template('bookDisplay.html', book=material, user=current_user)
+    return render_template('bookDisplay.html', material=material, user=current_user)
 
 @views.route('/<type>/<id>/check-out')
-def checkOut(id):
+def checkOut(id, type):
     material = Material.query.filter_by(id=id).first()
     checkedOut = CheckedOut(materialId=material.id, userId = current_user.id, checkOutDate=func.now())
     material.availability = 'No'
     db.session.add(checkedOut)
     db.session.commit()
     flash('Checked out!', category='success')
-    return redirect(url_for('views.bookCatalog'))
+    return redirect(url_for('views.home'))
+
+# @views.route('/test')
+# def waitingList(id):
+#     material = Material.query.filter_by(id=id).first()
+#     joinWaitingList = WaitingList(materialId = material.id, userID = current_user.id, joinDate=func.now())
+#     db.session.add(joinWaitingList)
+#     db.session.commit()
+#     flash('Joined Waiting List!', category='success')
+#     return redirect(url_for('views.checkOut'))
+
+# @views.route('/test')
+# def test(id, type):
+#     return('wassup')
+
+
+
 
     
