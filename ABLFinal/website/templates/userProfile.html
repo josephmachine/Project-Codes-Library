@@ -1,0 +1,19 @@
+{% extends "base.html" %} {% block title %} User Profile {% endblock %}
+
+{% block content %}
+
+{% for material in userMaterial %}
+<div class="card">
+    <h5 class="card-header">{{ material[0] }}</h5>
+    <div class="card-body">
+        <h5 class="card-title">{{ material[1] }}</h5>
+        <p class="card-text">{{ material[2] }}</p>
+        <p class="card-text">{{ 'Replacement Cost: ' + material[3]|string }}</p>
+        <a href="" class="btn btn-primary">Return</a>
+        <a href="" class="btn btn-primary">Lost</a>
+        <a href="" class="btn btn-primary">Late</a>
+    </div>
+</div>
+{% endfor %}
+
+{% endblock %}

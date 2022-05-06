@@ -1,0 +1,28 @@
+{% extends "base.html" %} {% block title %}Waiting List{% endblock %}
+
+{% block content %}
+<body>
+    <div class="card">
+        <h5 class="card-header">{{ material.title + ' Waiting List' }}</h5>
+        <div class="card-body">
+            <p class="card-text">{{ material.author }}</p>
+        </div>
+    </div>
+    <table class="table">
+        <tr class="table__header">
+            {% for header in headings %}
+            <th class="table__cell">{{ header }}</th>
+            {% endfor %}
+        </tr>
+        {% for row in usersWaitingList %}
+        <tr class="table__row">
+            {% for cell in row %}
+            <td class="table__cell">
+                <a> {{ cell }} </a>
+            </td>
+            {% endfor %}
+        </tr>
+        {% endfor %}  
+    </table>
+</body>
+{% endblock %}
